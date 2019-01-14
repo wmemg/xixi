@@ -1,4 +1,4 @@
-﻿
+
 var $window = $(window), gardenCtx, gardenCanvas, $garden, garden;
 var clientWidth = $(window).width();
 var clientHeight = $(window).height();
@@ -93,23 +93,30 @@ function startHeartAnimation() {
 })(jQuery);
 
 function timeElapse(date){
-	var current = Date();
-	var seconds = (Date.parse(current) - Date.parse(date)) / 1000;
-	var days = Math.floor(seconds / (3600 * 24));
-	seconds = seconds % (3600 * 24);
-	var hours = Math.floor(seconds / 3600);
-	if (hours < 10) {
-		hours = "0" + hours;
-	}
-	seconds = seconds % 3600;
-	var minutes = Math.floor(seconds / 60);
-	if (minutes < 10) {
-		minutes = "0" + minutes;
-	}
-	seconds = seconds % 60;
-	if (seconds < 10) {
-		seconds = "0" + seconds;
-	}
+	var nowtime = new Date().getTime();
+	var futruetime =  date.getTime(); // 未来时间转换为时间戳
+    var msec = nowtime-futruetime; // 毫秒 未来时间-现在时间
+    var time = (msec/1000);  // 毫秒/1000
+    var days = parseInt(time/86400); // 天  24*60*60*1000 
+    var hours = parseInt(time/3600)-24*days;    // 小时 60*60 总小时数-过去的小时数=现在的小时数 
+    var minutes = parseInt(time%3600/60); // 分 -(day*24) 以60秒为一整份 取余 剩下秒数 秒数/60 就是分钟数
+    var seconds = parseInt(time%60);  // 以60秒为一整份 取余 剩下秒数
+	// var seconds = (Date.parse(current) - Date.parse(date)) / 1000;
+	// var days = Math.floor(seconds / (3600 * 24));
+	// seconds = seconds % (3600 * 24);
+	// var hours = Math.floor(seconds / 3600);
+	// if (hours < 10) {
+	// 	hours = "0" + hours;
+	// }
+	// seconds = seconds % 3600;
+	// var minutes = Math.floor(seconds / 60);
+	// if (minutes < 10) {
+	// 	minutes = "0" + minutes;
+	// }
+	// seconds = seconds % 60;
+	// if (seconds < 10) {
+	// 	seconds = "0" + seconds;
+	// }
 	var result = "<span class=\"digit\">" + days + "</span> days <span class=\"digit\">" + hours + "</span> hours <span class=\"digit\">" + minutes + "</span> minutes <span class=\"digit\">" + seconds + "</span> seconds"; 
 	$("#elapseClock").html(result);
 }
